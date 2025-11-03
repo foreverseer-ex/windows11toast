@@ -1,4 +1,4 @@
-# win11toast
+# windows11toast
 
 基于 WinRT 的 Windows 10 和 11 通知库
 
@@ -7,7 +7,7 @@ Toast notifications for Windows 10 and 11 based on WinRT
 ## 安装
 
 ```bash
-pip install win11toast
+pip install windows11toast
 ```
 
 ## 特性
@@ -25,7 +25,7 @@ pip install win11toast
 ### 简单通知
 
 ```python
-from win11toast import toast
+from windows11toast import toast
 
 toast('Hello Python🐍')
 ```
@@ -33,7 +33,7 @@ toast('Hello Python🐍')
 ### 带标题和正文
 
 ```python
-from win11toast import toast
+from windows11toast import toast
 
 toast('Hello Python', 'Click to open url', on_click='https://www.python.org')
 ```
@@ -41,7 +41,7 @@ toast('Hello Python', 'Click to open url', on_click='https://www.python.org')
 ### 文本换行
 
 ```python
-from win11toast import toast
+from windows11toast import toast
 
 toast('Hello', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit...')
 ```
@@ -51,7 +51,7 @@ toast('Hello', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit...')
 ### 使用 StrEnum（推荐）
 
 ```python
-from win11toast import toast, ImagePlacement
+from windows11toast import toast, ImagePlacement
 
 # Hero 图片（大图）
 toast(
@@ -89,7 +89,7 @@ toast(
 ### 使用字符串
 
 ```python
-from win11toast import toast
+from windows11toast import toast
 
 toast(
     'Hello',
@@ -104,7 +104,7 @@ toast(
 ### 使用 StrEnum（推荐）
 
 ```python
-from win11toast import toast, IconPlacement, IconCrop
+from windows11toast import toast, IconPlacement, IconCrop
 
 # 圆形图标
 toast(
@@ -131,7 +131,7 @@ toast(
 
 ```python
 from time import sleep
-from win11toast import notify_progress, update_progress
+from windows11toast import notify_progress, update_progress
 
 # 参数化API - 更Pythonic
 notify_progress(
@@ -156,7 +156,7 @@ update_progress(status='完成！')
 ### 多个并发进度通知
 
 ```python
-from win11toast import notify_progress, update_progress
+from windows11toast import notify_progress, update_progress
 
 # 创建多个不同标签的通知
 notify_progress(
@@ -183,7 +183,7 @@ update_progress(value=0.7, tag='video2')
 ### Windows 内置音频事件（使用 StrEnum）
 
 ```python
-from win11toast import toast, AudioEvent
+from windows11toast import toast, AudioEvent
 
 # 使用 StrEnum - IDE 自动补全
 toast('Hello', 'Hello from Python', audio=AudioEvent.LOOPING_ALARM)
@@ -216,7 +216,7 @@ toast('Hello', 'Hello from Python', audio=AudioEvent.LOOPING_CALL)
 ### 从 URL
 
 ```python
-from win11toast import toast
+from windows11toast import toast
 
 toast('Hello', 'Hello from Python', audio='https://example.com/sound.mp3')
 ```
@@ -224,7 +224,7 @@ toast('Hello', 'Hello from Python', audio='https://example.com/sound.mp3')
 ### 从文件
 
 ```python
-from win11toast import toast
+from windows11toast import toast
 
 toast('Hello', 'Hello from Python', audio=r'C:\Users\YourName\Music\sound.mp3')
 ```
@@ -232,7 +232,7 @@ toast('Hello', 'Hello from Python', audio=r'C:\Users\YourName\Music\sound.mp3')
 ### 静音
 
 ```python
-from win11toast import toast
+from windows11toast import toast
 
 toast('Hello Python🐍', audio=None)  # audio=None 表示静音
 ```
@@ -240,7 +240,7 @@ toast('Hello Python🐍', audio=None)  # audio=None 表示静音
 ### 循环播放
 
 ```python
-from win11toast import toast, AudioEvent
+from windows11toast import toast, AudioEvent
 
 toast(
     'Hello',
@@ -253,7 +253,7 @@ toast(
 ## 文本转语音
 
 ```python
-from win11toast import toast
+from windows11toast import toast
 
 toast('Hello Python🐍', dialogue='Hello world')
 ```
@@ -263,7 +263,7 @@ toast('Hello Python🐍', dialogue='Hello world')
 ### 从 URL
 
 ```python
-from win11toast import recognize
+from windows11toast import recognize
 
 result = await recognize('https://example.com/image.png')
 print(result.text)
@@ -272,7 +272,7 @@ print(result.text)
 ### 从文件
 
 ```python
-from win11toast import recognize
+from windows11toast import recognize
 
 result = await recognize(r'C:\Users\YourName\Pictures\image.png')
 print(result.text)
@@ -281,7 +281,7 @@ print(result.text)
 ### 指定语言（使用 StrEnum）
 
 ```python
-from win11toast import recognize, OcrLanguage
+from windows11toast import recognize, OcrLanguage
 
 # 使用 StrEnum
 result = await recognize(
@@ -312,7 +312,7 @@ result = await recognize(
 ### 使用 StrEnum（推荐）
 
 ```python
-from win11toast import toast, ToastDuration
+from windows11toast import toast, ToastDuration
 
 # 短时间（默认）
 toast('Hello Python🐍', duration=ToastDuration.SHORT)
@@ -336,7 +336,7 @@ toast('Hello Python🐍', duration=ToastDuration.URGENT)
 ### 使用字符串
 
 ```python
-from win11toast import toast
+from windows11toast import toast
 
 toast('Hello Python🐍', duration='long')  # 也支持字符串
 ```
@@ -346,7 +346,7 @@ toast('Hello Python🐍', duration='long')  # 也支持字符串
 ### 单个按钮
 
 ```python
-from win11toast import toast
+from windows11toast import toast
 
 toast('Hello', 'Hello from Python', button_content='Dismiss')
 ```
@@ -354,7 +354,7 @@ toast('Hello', 'Hello from Python', button_content='Dismiss')
 ### 多个按钮
 
 ```python
-from win11toast import toast
+from windows11toast import toast
 
 toast('Hello', 'Click a button', buttons=['Approve', 'Dismiss', 'Other'])
 ```
@@ -362,7 +362,7 @@ toast('Hello', 'Click a button', buttons=['Approve', 'Dismiss', 'Other'])
 ## 输入字段
 
 ```python
-from win11toast import toast
+from windows11toast import toast
 
 result = toast(
     'Hello',
@@ -377,7 +377,7 @@ result = toast(
 ## 选择
 
 ```python
-from win11toast import toast
+from windows11toast import toast
 
 result = toast(
     'Hello',
@@ -392,7 +392,7 @@ result = toast(
 ## 回调函数
 
 ```python
-from win11toast import toast
+from windows11toast import toast
 
 def handle_click(result):
     print('Clicked!', result)
@@ -407,7 +407,7 @@ toast('Hello Python', 'Click to open url', on_click=handle_click)
 ### 异步函数
 
 ```python
-from win11toast import toast_async
+from windows11toast import toast_async
 
 async def main():
     await toast_async('Hello Python', 'Click to open url', on_click='https://www.python.org')
@@ -420,7 +420,7 @@ asyncio.run(main())
 ### 非阻塞
 
 ```python
-from win11toast import notify
+from windows11toast import notify
 
 notify('Hello Python', 'Click to open url', on_click='https://www.python.org')
 ```
@@ -428,7 +428,7 @@ notify('Hello Python', 'Click to open url', on_click='https://www.python.org')
 ## 自定义XML
 
 ```python
-from win11toast import toast
+from windows11toast import toast
 
 xml = """
 <toast launch="action=openThread&amp;threadId=92187">

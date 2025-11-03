@@ -1,4 +1,4 @@
-# win11toast 使用示例 / Examples
+# windows11toast 使用示例 / Examples
 # 本文档包含所有功能的完整使用示例。
 # This document contains complete examples for all features.
 
@@ -424,7 +424,7 @@ def example_non_blocking():
 def example_complete():
     """完整示例 / Complete Example"""
     # 1. 基本通知
-    toast('欢迎', '欢迎使用 win11toast！')
+    toast('欢迎', '欢迎使用 windows11toast！')
     sleep(1)
 
     # 2. 带图片的通知
@@ -503,7 +503,7 @@ def example_complete():
 def main():
     """运行所有示例 / Run all examples"""
     print("=" * 60)
-    print("win11toast 示例程序 / Examples")
+    print("windows11toast 示例程序 / Examples")
     print("=" * 60)
     
     # 基本通知

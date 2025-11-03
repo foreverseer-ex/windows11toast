@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   release-build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - uses: actions/checkout@v4
@@ -28,9 +28,9 @@ jobs:
 
       - name: Build release distributions
         run: |
-          # NOTE: put your own distribution build steps here.
-          python -m pip install build
-          python -m build
+          # Install uv and build dependencies
+          python -m pip install uv
+          uv build
 
       - name: Upload distributions
         uses: actions/upload-artifact@v4
@@ -51,11 +51,11 @@ jobs:
     environment:
       name: pypi
       # OPTIONAL: uncomment and update to include your PyPI project URL in the deployment status:
-      # url: https://pypi.org/p/YOURPROJECT
+      # url: https://pypi.org/p/windows11toast
       #
       # ALTERNATIVE: if your GitHub Release name is the PyPI project version string
       # ALTERNATIVE: exactly, uncomment the following line instead:
-      # url: https://pypi.org/project/YOURPROJECT/${{ github.event.release.name }}
+      url: https://pypi.org/project/windows11toast/${{ github.event.release.name }}
 
     steps:
       - name: Retrieve release distributions

@@ -1,6 +1,6 @@
 [project]
 name = "windows11toast"
-version = "1.0.0"
+version = "1.2.0"
 description = "Toast notifications for Windows 10 and 11"
 readme = "README.md"
 requires-python = ">=3.9,<3.14"

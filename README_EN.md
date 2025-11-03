@@ -1,4 +1,4 @@
-# win11toast
+# windows11toast
 
 Toast notifications for Windows 10 and 11 based on WinRT
 
@@ -7,7 +7,7 @@ A library for Windows 10 and 11 toast notifications based on WinRT
 ## Installation
 
 ```bash
-pip install win11toast
+pip install windows11toast
 ```
 
 ## Features
@@ -25,7 +25,7 @@ pip install win11toast
 ### Simple Notification
 
 ```python
-from win11toast import toast
+from windows11toast import toast
 
 toast('Hello Python🐍')
 ```
@@ -33,7 +33,7 @@ toast('Hello Python🐍')
 ### With Title and Body
 
 ```python
-from win11toast import toast
+from windows11toast import toast
 
 toast('Hello Python', 'Click to open url', on_click='https://www.python.org')
 ```
@@ -41,7 +41,7 @@ toast('Hello Python', 'Click to open url', on_click='https://www.python.org')
 ### Wrap Text
 
 ```python
-from win11toast import toast
+from windows11toast import toast
 
 toast('Hello', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit...')
 ```
@@ -51,7 +51,7 @@ toast('Hello', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit...')
 ### Using StrEnum (Recommended)
 
 ```python
-from win11toast import toast, ImagePlacement
+from windows11toast import toast, ImagePlacement
 
 # Hero image (large image)
 toast(
@@ -89,7 +89,7 @@ toast(
 ### Using String
 
 ```python
-from win11toast import toast
+from windows11toast import toast
 
 toast(
     'Hello',
@@ -104,7 +104,7 @@ toast(
 ### Using StrEnum (Recommended)
 
 ```python
-from win11toast import toast, IconPlacement, IconCrop
+from windows11toast import toast, IconPlacement, IconCrop
 
 # Circular icon
 toast(
@@ -131,7 +131,7 @@ toast(
 
 ```python
 from time import sleep
-from win11toast import notify_progress, update_progress
+from windows11toast import notify_progress, update_progress
 
 # Parameterized API - more Pythonic
 notify_progress(
@@ -156,7 +156,7 @@ update_progress(status='Completed!')
 ### Multiple Concurrent Progress Notifications
 
 ```python
-from win11toast import notify_progress, update_progress
+from windows11toast import notify_progress, update_progress
 
 # Create multiple notifications with different tags
 notify_progress(
@@ -183,7 +183,7 @@ update_progress(value=0.7, tag='video2')
 ### Windows Built-in Audio Events (Using StrEnum)
 
 ```python
-from win11toast import toast, AudioEvent
+from windows11toast import toast, AudioEvent
 
 # Using StrEnum - IDE autocomplete
 toast('Hello', 'Hello from Python', audio=AudioEvent.LOOPING_ALARM)
@@ -216,7 +216,7 @@ toast('Hello', 'Hello from Python', audio=AudioEvent.LOOPING_CALL)
 ### From URL
 
 ```python
-from win11toast import toast
+from windows11toast import toast
 
 toast('Hello', 'Hello from Python', audio='https://example.com/sound.mp3')
 ```
@@ -224,7 +224,7 @@ toast('Hello', 'Hello from Python', audio='https://example.com/sound.mp3')
 ### From File
 
 ```python
-from win11toast import toast
+from windows11toast import toast
 
 toast('Hello', 'Hello from Python', audio=r'C:\Users\YourName\Music\sound.mp3')
 ```
@@ -232,7 +232,7 @@ toast('Hello', 'Hello from Python', audio=r'C:\Users\YourName\Music\sound.mp3')
 ### Silent
 
 ```python
-from win11toast import toast
+from windows11toast import toast
 
 toast('Hello Python🐍', audio=None)  # audio=None means silent
 ```
@@ -240,7 +240,7 @@ toast('Hello Python🐍', audio=None)  # audio=None means silent
 ### Loop
 
 ```python
-from win11toast import toast, AudioEvent
+from windows11toast import toast, AudioEvent
 
 toast(
     'Hello',
@@ -253,7 +253,7 @@ toast(
 ## Text-to-Speech
 
 ```python
-from win11toast import toast
+from windows11toast import toast
 
 toast('Hello Python🐍', dialogue='Hello world')
 ```
@@ -263,7 +263,7 @@ toast('Hello Python🐍', dialogue='Hello world')
 ### From URL
 
 ```python
-from win11toast import recognize
+from windows11toast import recognize
 
 result = await recognize('https://example.com/image.png')
 print(result.text)
@@ -272,7 +272,7 @@ print(result.text)
 ### From File
 
 ```python
-from win11toast import recognize
+from windows11toast import recognize
 
 result = await recognize(r'C:\Users\YourName\Pictures\image.png')
 print(result.text)
@@ -281,7 +281,7 @@ print(result.text)
 ### With Language (Using StrEnum)
 
 ```python
-from win11toast import recognize, OcrLanguage
+from windows11toast import recognize, OcrLanguage
 
 # Using StrEnum
 result = await recognize(
@@ -312,7 +312,7 @@ result = await recognize(
 ### Using StrEnum (Recommended)
 
 ```python
-from win11toast import toast, ToastDuration
+from windows11toast import toast, ToastDuration
 
 # Short duration (default)
 toast('Hello Python🐍', duration=ToastDuration.SHORT)
@@ -336,7 +336,7 @@ toast('Hello Python🐍', duration=ToastDuration.URGENT)
 ### Using String
 
 ```python
-from win11toast import toast
+from windows11toast import toast
 
 toast('Hello Python🐍', duration='long')  # String is also supported
 ```
@@ -346,7 +346,7 @@ toast('Hello Python🐍', duration='long')  # String is also supported
 ### Single Button
 
 ```python
-from win11toast import toast
+from windows11toast import toast
 
 toast('Hello', 'Hello from Python', button_content='Dismiss')
 ```
@@ -354,7 +354,7 @@ toast('Hello', 'Hello from Python', button_content='Dismiss')
 ### Multiple Buttons
 
 ```python
-from win11toast import toast
+from windows11toast import toast
 
 toast('Hello', 'Click a button', buttons=['Approve', 'Dismiss', 'Other'])
 ```
@@ -362,7 +362,7 @@ toast('Hello', 'Click a button', buttons=['Approve', 'Dismiss', 'Other'])
 ## Input Fields
 
 ```python
-from win11toast import toast
+from windows11toast import toast
 
 result = toast(
     'Hello',
@@ -377,7 +377,7 @@ result = toast(
 ## Selection
 
 ```python
-from win11toast import toast
+from windows11toast import toast
 
 result = toast(
     'Hello',
@@ -392,7 +392,7 @@ result = toast(
 ## Callback
 
 ```python
-from win11toast import toast
+from windows11toast import toast
 
 def handle_click(result):
     print('Clicked!', result)
@@ -407,7 +407,7 @@ toast('Hello Python', 'Click to open url', on_click=handle_click)
 ### Async Function
 
 ```python
-from win11toast import toast_async
+from windows11toast import toast_async
 
 async def main():
     await toast_async('Hello Python', 'Click to open url', on_click='https://www.python.org')
@@ -420,7 +420,7 @@ asyncio.run(main())
 ### Non-blocking
 
 ```python
-from win11toast import notify
+from windows11toast import notify
 
 notify('Hello Python', 'Click to open url', on_click='https://www.python.org')
 ```
@@ -428,7 +428,7 @@ notify('Hello Python', 'Click to open url', on_click='https://www.python.org')
 ## Custom XML
 
 ```python
-from win11toast import toast
+from windows11toast import toast
 
 xml = """
 <toast launch="action=openThread&amp;threadId=92187">
