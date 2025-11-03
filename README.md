@@ -611,6 +611,16 @@ MIT License
 
 ## 致谢
 
+本项目基于 [win11toast](https://github.com/GitHub30/win11toast) 项目，感谢原作者 [GitHub30](https://github.com/GitHub30) 的开源贡献。
+
+本项目在原始项目的基础上进行了重构和改进：
+- 完全参数化的API设计
+- 使用StrEnum提供更好的类型安全
+- 完整的类型提示支持
+- 双语文档（中英文）
+- 改进的代码结构
+
+其他参考项目：
 - [winsdk_toast](https://github.com/...)
 - [Windows-Toasts](https://github.com/...)
 - [MarcAlx/notification.py](https://github.com/...)

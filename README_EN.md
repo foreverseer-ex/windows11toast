@@ -611,6 +611,16 @@ MIT License
 
 ## Acknowledgements
 
+This project is based on [win11toast](https://github.com/GitHub30/win11toast), thanks to the original author [GitHub30](https://github.com/GitHub30) for their open-source contribution.
+
+This project has been refactored and improved upon the original:
+- Fully parameterized API design
+- Better type safety with StrEnum
+- Complete type hint support
+- Bilingual documentation (English/Chinese)
+- Improved code structure
+
+Other referenced projects:
 - [winsdk_toast](https://github.com/...)
 - [Windows-Toasts](https://github.com/...)
 - [MarcAlx/notification.py](https://github.com/...)

@@ -41,6 +41,9 @@ Homepage = "https://github.com/foreverseer-ex/windows11toast"
 Repository = "https://github.com/foreverseer-ex/windows11toast"
 "Bug Tracker" = "https://github.com/foreverseer-ex/windows11toast/issues"
 
+[tool.setuptools]
+package-dir = {"" = "src"}
+
 [build-system]
 requires = ["uv_build>=0.8.19,<0.9.0"]
 build-backend = "uv_build"

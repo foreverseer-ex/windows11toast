@@ -4,7 +4,7 @@
 
 from time import sleep
 
-from win11toast import (
+from windows11toast import (
     toast,
     notify,
     notify_progress,
@@ -578,6 +578,7 @@ def main():
 
 async def main_async():
     """运行异步示例 / Run async examples"""
+    import asyncio
     print("\n运行异步示例 / Running async examples...")
     
     # OCR 示例（需要实际的图片文件）
@@ -597,4 +598,6 @@ if __name__ == '__main__':
     main()
     
     # 运行异步示例（取消注释以运行）
+    # import asyncio
     # asyncio.run(main_async())
+
