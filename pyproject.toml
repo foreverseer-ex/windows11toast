@@ -1,0 +1,46 @@
+[project]
+name = "windows11toast"
+version = "1.0.0"
+description = "Toast notifications for Windows 10 and 11"
+readme = "README.md"
+requires-python = ">=3.9,<3.14"
+license = { text = "MIT" }
+authors = [
+    { name = "zxb", email = "khassar@foxmail.com" }
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Utilities",
+    "Operating System :: Microsoft",
+    "Operating System :: Microsoft :: Windows :: Windows 10",
+    "Operating System :: Microsoft :: Windows :: Windows 11"
+]
+dependencies = [
+    "winrt-Windows.Data.Xml.Dom",
+    "winrt-Windows.Foundation",
+    "winrt.windows.Foundation.Collections",
+    "winrt-Windows.Globalization",
+    "winrt-Windows.Graphics.Imaging",
+    "winrt-Windows.Media.Core",
+    "winrt-Windows.Media.Ocr",
+    "winrt-Windows.Media.Playback",
+    "winrt-Windows.Media.Speechsynthesis",
+    "winrt-Windows.Storage",
+    "winrt-Windows.Storage.Streams",
+    "winrt-Windows.UI.Notifications"
+]
+
+[project.urls]
+Homepage = "https://github.com/foreverseer-ex/windows11toast"
+Repository = "https://github.com/foreverseer-ex/windows11toast"
+"Bug Tracker" = "https://github.com/foreverseer-ex/windows11toast/issues"
+
+[build-system]
+requires = ["uv_build>=0.8.19,<0.9.0"]
+build-backend = "uv_build"

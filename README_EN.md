@@ -1,28 +1,28 @@
 # win11toast
 
-基于 WinRT 的 Windows 10 和 11 通知库
-
 Toast notifications for Windows 10 and 11 based on WinRT
 
-## 安装
+A library for Windows 10 and 11 toast notifications based on WinRT
+
+## Installation
 
 ```bash
 pip install win11toast
 ```
 
-## 特性
+## Features
 
-- ✅ **Pythonic API** - 完全参数化函数，无需传递字典
-- ✅ **类型提示** - 完整的类型提示支持
-- ✅ **StrEnum 支持** - 使用枚举提供更好的 IDE 自动补全和类型安全
-- ✅ **双语文档** - 中英文注释和文档
-- ✅ **进度通知** - 支持实时更新进度条
-- ✅ **丰富通知** - 支持图片、图标、按钮、输入等
-- ✅ **内置资源** - 提供 Windows 内置音频事件和语言选项
+- ✅ **Pythonic API** - Fully parameterized functions, no need to pass dictionaries
+- ✅ **Type Hints** - Complete type hint support
+- ✅ **StrEnum Support** - Use enums for better IDE autocomplete and type safety
+- ✅ **Bilingual Documentation** - English and Chinese comments and documentation
+- ✅ **Progress Notifications** - Support for real-time progress bar updates
+- ✅ **Rich Notifications** - Support for images, icons, buttons, inputs, etc.
+- ✅ **Built-in Resources** - Built-in Windows audio events and language options
 
-## 基本用法
+## Basic Usage
 
-### 简单通知
+### Simple Notification
 
 ```python
 from win11toast import toast
@@ -30,7 +30,7 @@ from win11toast import toast
 toast('Hello Python🐍')
 ```
 
-### 带标题和正文
+### With Title and Body
 
 ```python
 from win11toast import toast
@@ -38,7 +38,7 @@ from win11toast import toast
 toast('Hello Python', 'Click to open url', on_click='https://www.python.org')
 ```
 
-### 文本换行
+### Wrap Text
 
 ```python
 from win11toast import toast
@@ -46,14 +46,14 @@ from win11toast import toast
 toast('Hello', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit...')
 ```
 
-## 参数化图片
+## Parameterized Image
 
-### 使用 StrEnum（推荐）
+### Using StrEnum (Recommended)
 
 ```python
 from win11toast import toast, ImagePlacement
 
-# Hero 图片（大图）
+# Hero image (large image)
 toast(
     'Hello',
     'Hello from Python',
@@ -61,7 +61,7 @@ toast(
     image_placement=ImagePlacement.HERO
 )
 
-# 本地文件
+# Local file
 toast(
     'Hello',
     'Hello from Python',
@@ -69,7 +69,7 @@ toast(
     image_placement=ImagePlacement.HERO
 )
 
-# 应用Logo覆盖
+# App logo override
 toast(
     'Hello',
     'Hello from Python',
@@ -77,7 +77,7 @@ toast(
     image_placement=ImagePlacement.APP_LOGO_OVERRIDE
 )
 
-# 内联图片
+# Inline image
 toast(
     'Hello',
     'Hello from Python',
@@ -86,7 +86,7 @@ toast(
 )
 ```
 
-### 使用字符串
+### Using String
 
 ```python
 from win11toast import toast
@@ -95,18 +95,18 @@ toast(
     'Hello',
     'Hello from Python',
     image_src='https://example.com/image.jpg',
-    image_placement='hero'  # 也支持字符串
+    image_placement='hero'  # String is also supported
 )
 ```
 
-## 参数化图标
+## Parameterized Icon
 
-### 使用 StrEnum（推荐）
+### Using StrEnum (Recommended)
 
 ```python
 from win11toast import toast, IconPlacement, IconCrop
 
-# 圆形图标
+# Circular icon
 toast(
     'Hello',
     'Hello from Python',
@@ -115,7 +115,7 @@ toast(
     icon_hint_crop=IconCrop.CIRCLE
 )
 
-# 方形图标
+# Square icon
 toast(
     'Hello',
     'Hello from Python',
@@ -125,95 +125,95 @@ toast(
 )
 ```
 
-## 进度通知
+## Progress Notifications
 
-### 创建进度通知
+### Create Progress Notification
 
 ```python
 from time import sleep
 from win11toast import notify_progress, update_progress
 
-# 参数化API - 更Pythonic
+# Parameterized API - more Pythonic
 notify_progress(
     title='YouTube',
-    status='下载中...',
+    status='Downloading...',
     value=0.0,
-    value_string_override='0/15 视频'
+    value_string_override='0/15 videos'
 )
 
-# 更新进度
+# Update progress
 for i in range(1, 16):
     sleep(1)
     update_progress(
         value=i/15,
-        value_string_override=f'{i}/15 视频'
+        value_string_override=f'{i}/15 videos'
     )
 
-# 更新状态
-update_progress(status='完成！')
+# Update status
+update_progress(status='Completed!')
 ```
 
-### 多个并发进度通知
+### Multiple Concurrent Progress Notifications
 
 ```python
 from win11toast import notify_progress, update_progress
 
-# 创建多个不同标签的通知
+# Create multiple notifications with different tags
 notify_progress(
-    title='视频 1',
-    status='下载中...',
+    title='Video 1',
+    status='Downloading...',
     value=0.0,
     tag='video1'
 )
 
 notify_progress(
-    title='视频 2',
-    status='下载中...',
+    title='Video 2',
+    status='Downloading...',
     value=0.0,
     tag='video2'
 )
 
-# 独立更新每个
+# Update each independently
 update_progress(value=0.5, tag='video1')
 update_progress(value=0.7, tag='video2')
 ```
 
-## 音频
+## Audio
 
-### Windows 内置音频事件（使用 StrEnum）
+### Windows Built-in Audio Events (Using StrEnum)
 
 ```python
 from win11toast import toast, AudioEvent
 
-# 使用 StrEnum - IDE 自动补全
+# Using StrEnum - IDE autocomplete
 toast('Hello', 'Hello from Python', audio=AudioEvent.LOOPING_ALARM)
 
-# 默认通知声音
+# Default notification sound
 toast('Hello', 'Hello from Python', audio=AudioEvent.DEFAULT)
 
-# IM 声音
+# IM sound
 toast('Hello', 'Hello from Python', audio=AudioEvent.IM)
 
-# 邮件声音
+# Mail sound
 toast('Hello', 'Hello from Python', audio=AudioEvent.MAIL)
 
-# 提醒声音
+# Reminder sound
 toast('Hello', 'Hello from Python', audio=AudioEvent.REMINDER)
 
-# SMS 声音
+# SMS sound
 toast('Hello', 'Hello from Python', audio=AudioEvent.SMS)
 
-# 循环闹钟（1-10）
+# Looping alarms (1-10)
 toast('Hello', 'Hello from Python', audio=AudioEvent.LOOPING_ALARM)
 toast('Hello', 'Hello from Python', audio=AudioEvent.LOOPING_ALARM2)
-# ... 直到 LOOPING_ALARM10
+# ... up to LOOPING_ALARM10
 
-# 循环电话（1-10）
+# Looping calls (1-10)
 toast('Hello', 'Hello from Python', audio=AudioEvent.LOOPING_CALL)
-# ... 直到 LOOPING_CALL10
+# ... up to LOOPING_CALL10
 ```
 
-### 从 URL
+### From URL
 
 ```python
 from win11toast import toast
@@ -221,7 +221,7 @@ from win11toast import toast
 toast('Hello', 'Hello from Python', audio='https://example.com/sound.mp3')
 ```
 
-### 从文件
+### From File
 
 ```python
 from win11toast import toast
@@ -229,15 +229,15 @@ from win11toast import toast
 toast('Hello', 'Hello from Python', audio=r'C:\Users\YourName\Music\sound.mp3')
 ```
 
-### 静音
+### Silent
 
 ```python
 from win11toast import toast
 
-toast('Hello Python🐍', audio=None)  # audio=None 表示静音
+toast('Hello Python🐍', audio=None)  # audio=None means silent
 ```
 
-### 循环播放
+### Loop
 
 ```python
 from win11toast import toast, AudioEvent
@@ -246,11 +246,11 @@ toast(
     'Hello',
     'Hello from Python',
     audio=AudioEvent.LOOPING_ALARM,
-    audio_loop=True  # 循环播放
+    audio_loop=True  # Loop the audio
 )
 ```
 
-## 文本转语音
+## Text-to-Speech
 
 ```python
 from win11toast import toast
@@ -258,9 +258,9 @@ from win11toast import toast
 toast('Hello Python🐍', dialogue='Hello world')
 ```
 
-## OCR（光学字符识别）
+## OCR
 
-### 从 URL
+### From URL
 
 ```python
 from win11toast import recognize
@@ -269,7 +269,7 @@ result = await recognize('https://example.com/image.png')
 print(result.text)
 ```
 
-### 从文件
+### From File
 
 ```python
 from win11toast import recognize
@@ -278,72 +278,72 @@ result = await recognize(r'C:\Users\YourName\Pictures\image.png')
 print(result.text)
 ```
 
-### 指定语言（使用 StrEnum）
+### With Language (Using StrEnum)
 
 ```python
 from win11toast import recognize, OcrLanguage
 
-# 使用 StrEnum
+# Using StrEnum
 result = await recognize(
     r'C:\Users\YourName\Pictures\hello.png',
-    lang=OcrLanguage.ZH_CN  # 中文
+    lang=OcrLanguage.ZH_CN  # Chinese
 )
 
 result = await recognize(
     r'C:\Users\YourName\Pictures\hello.png',
-    lang=OcrLanguage.JA  # 日语
+    lang=OcrLanguage.JA  # Japanese
 )
 
-# 使用字符串
+# Using string
 result = await recognize(
     r'C:\Users\YourName\Pictures\hello.png',
-    lang='en-US'  # 英语
+    lang='en-US'  # English
 )
 
-# 自动检测（使用用户配置文件语言）
+# Auto-detect (use user profile language)
 result = await recognize(
     r'C:\Users\YourName\Pictures\hello.png',
-    lang=None  # 或 lang=OcrLanguage.AUTO
+    lang=None  # or lang=OcrLanguage.AUTO
 )
 ```
 
-## 持续时间
+## Duration
 
-### 使用 StrEnum（推荐）
+### Using StrEnum (Recommended)
 
 ```python
 from win11toast import toast, ToastDuration
 
-# 短时间（默认）
+# Short duration (default)
 toast('Hello Python🐍', duration=ToastDuration.SHORT)
 
-# 长时间（25秒）
+# Long duration (25 seconds)
 toast('Hello Python🐍', duration=ToastDuration.LONG)
 
-# 无超时 - 闹钟场景
+# No timeout - Alarm scenario
 toast('Hello Python🐍', duration=ToastDuration.ALARM)
 
-# 无超时 - 提醒场景
+# No timeout - Reminder scenario
 toast('Hello Python🐍', duration=ToastDuration.REMINDER)
 
-# 无超时 - 来电场景
+# No timeout - Incoming call scenario
 toast('Hello Python🐍', duration=ToastDuration.INCOMING_CALL)
 
-# 无超时 - 紧急场景
+# No timeout - Urgent scenario
 toast('Hello Python🐍', duration=ToastDuration.URGENT)
 ```
 
-### 使用字符串
+### Using String
 
 ```python
 from win11toast import toast
 
-toast('Hello Python🐍', duration='long')  # 也支持字符串
+toast('Hello Python🐍', duration='long')  # String is also supported
 ```
 
-## 按钮
+## Buttons
 
-### 单个按钮
+### Single Button
 
 ```python
 from win11toast import toast
@@ -351,7 +351,7 @@ from win11toast import toast
 toast('Hello', 'Hello from Python', button_content='Dismiss')
 ```
 
-### 多个按钮
+### Multiple Buttons
 
 ```python
 from win11toast import toast
@@ -359,7 +359,7 @@ from win11toast import toast
 toast('Hello', 'Click a button', buttons=['Approve', 'Dismiss', 'Other'])
 ```
 
-## 输入字段
+## Input Fields
 
 ```python
 from win11toast import toast
@@ -368,13 +368,13 @@ result = toast(
     'Hello',
     'Type anything',
     input_id='reply',
-    input_placeholder='输入回复...',
+    input_placeholder='Enter reply...',
     button_content='Send'
 )
-# result['user_input'] 将包含 {'reply': '用户输入的文本'}
+# result['user_input'] will contain {'reply': 'user typed text'}
 ```
 
-## 选择
+## Selection
 
 ```python
 from win11toast import toast
@@ -386,10 +386,10 @@ result = toast(
     selections=['Apple', 'Banana', 'Grape'],
     button_content='Submit'
 )
-# result['user_input'] 将包含 {'fruit': '选中的选项'}
+# result['user_input'] will contain {'fruit': 'selected option'}
 ```
 
-## 回调函数
+## Callback
 
 ```python
 from win11toast import toast
@@ -402,9 +402,9 @@ def handle_click(result):
 toast('Hello Python', 'Click to open url', on_click=handle_click)
 ```
 
-## 异步
+## Async
 
-### 异步函数
+### Async Function
 
 ```python
 from win11toast import toast_async
@@ -412,12 +412,12 @@ from win11toast import toast_async
 async def main():
     await toast_async('Hello Python', 'Click to open url', on_click='https://www.python.org')
 
-# 在异步上下文中运行
+# Run in async context
 import asyncio
 asyncio.run(main())
 ```
 
-### 非阻塞
+### Non-blocking
 
 ```python
 from win11toast import notify
@@ -425,7 +425,7 @@ from win11toast import notify
 notify('Hello Python', 'Click to open url', on_click='https://www.python.org')
 ```
 
-## 自定义XML
+## Custom XML
 
 ```python
 from win11toast import toast
@@ -453,174 +453,174 @@ xml = """
 toast(xml=xml)
 ```
 
-## StrEnum 选项参考
+## StrEnum Options Reference
 
 ### ImagePlacement
 
-- `ImagePlacement.HERO` - 大图
-- `ImagePlacement.APP_LOGO_OVERRIDE` - 应用Logo覆盖
-- `ImagePlacement.INLINE` - 内联
+- `ImagePlacement.HERO` - Large image
+- `ImagePlacement.APP_LOGO_OVERRIDE` - App logo override
+- `ImagePlacement.INLINE` - Inline
 
 ### IconPlacement
 
-- `IconPlacement.APP_LOGO_OVERRIDE` - 应用Logo覆盖
-- `IconPlacement.APP_LOGO_OVERRIDE_AND_HERO` - 应用Logo覆盖和Hero
+- `IconPlacement.APP_LOGO_OVERRIDE` - App logo override
+- `IconPlacement.APP_LOGO_OVERRIDE_AND_HERO` - App logo override and hero
 
 ### IconCrop
 
-- `IconCrop.CIRCLE` - 圆形
-- `IconCrop.NONE` - 方形
+- `IconCrop.CIRCLE` - Circular
+- `IconCrop.NONE` - Square
 
 ### AudioEvent
 
-- `AudioEvent.DEFAULT` - 默认通知声音
-- `AudioEvent.IM` - IM 声音
-- `AudioEvent.MAIL` - 邮件声音
-- `AudioEvent.REMINDER` - 提醒声音
-- `AudioEvent.SMS` - SMS 声音
-- `AudioEvent.LOOPING_ALARM` 到 `LOOPING_ALARM10` - 循环闹钟（1-10）
-- `AudioEvent.LOOPING_CALL` 到 `LOOPING_CALL10` - 循环电话（1-10）
+- `AudioEvent.DEFAULT` - Default notification sound
+- `AudioEvent.IM` - IM sound
+- `AudioEvent.MAIL` - Mail sound
+- `AudioEvent.REMINDER` - Reminder sound
+- `AudioEvent.SMS` - SMS sound
+- `AudioEvent.LOOPING_ALARM` to `LOOPING_ALARM10` - Looping alarms (1-10)
+- `AudioEvent.LOOPING_CALL` to `LOOPING_CALL10` - Looping calls (1-10)
 
 ### ToastDuration
 
-- `ToastDuration.SHORT` - 短时间
-- `ToastDuration.LONG` - 长时间（25秒）
-- `ToastDuration.ALARM` - 无超时 - 闹钟
-- `ToastDuration.REMINDER` - 无超时 - 提醒
-- `ToastDuration.INCOMING_CALL` - 无超时 - 来电
-- `ToastDuration.URGENT` - 无超时 - 紧急
+- `ToastDuration.SHORT` - Short duration
+- `ToastDuration.LONG` - Long duration (25 seconds)
+- `ToastDuration.ALARM` - No timeout - Alarm
+- `ToastDuration.REMINDER` - No timeout - Reminder
+- `ToastDuration.INCOMING_CALL` - No timeout - Incoming call
+- `ToastDuration.URGENT` - No timeout - Urgent
 
 ### OcrLanguage
 
-- `OcrLanguage.AUTO` - 自动（使用用户配置文件语言）
-- `OcrLanguage.EN_US` - 英语（美国）
-- `OcrLanguage.ZH_CN` - 中文（简体）
-- `OcrLanguage.JA` - 日语
-- `OcrLanguage.KO` - 韩语
-- `OcrLanguage.FR` - 法语
-- `OcrLanguage.DE` - 德语
-- `OcrLanguage.ES` - 西班牙语
-- `OcrLanguage.IT` - 意大利语
-- `OcrLanguage.PT` - 葡萄牙语
-- `OcrLanguage.RU` - 俄语
-- `OcrLanguage.AR` - 阿拉伯语
-- `OcrLanguage.HI` - 印地语
+- `OcrLanguage.AUTO` - Auto (use user profile language)
+- `OcrLanguage.EN_US` - English (US)
+- `OcrLanguage.ZH_CN` - Chinese (Simplified)
+- `OcrLanguage.JA` - Japanese
+- `OcrLanguage.KO` - Korean
+- `OcrLanguage.FR` - French
+- `OcrLanguage.DE` - German
+- `OcrLanguage.ES` - Spanish
+- `OcrLanguage.IT` - Italian
+- `OcrLanguage.PT` - Portuguese
+- `OcrLanguage.RU` - Russian
+- `OcrLanguage.AR` - Arabic
+- `OcrLanguage.HI` - Hindi
 
-## API参考
+## API Reference
 
-### 主要函数
+### Main Functions
 
 #### `toast(title, body, ...)`
 
-创建并显示同步通知。
+Create and show a synchronous toast notification.
 
-**主要参数:**
-- `title`: 通知标题
-- `body`: 通知正文
-- `image_src`: 图片源URL/路径
-- `image_placement`: 图片位置（`ImagePlacement` enum 或字符串）
-- `icon_src`: 图标源URL/路径
-- `icon_placement`: 图标位置（`IconPlacement` enum 或字符串）
-- `icon_hint_crop`: 图标裁剪（`IconCrop` enum 或字符串）
-- `audio`: 音频源（`AudioEvent` enum、URL 或文件路径），`None` 表示静音
-- `audio_loop`: 是否循环播放音频
-- `duration`: 通知持续时间（`ToastDuration` enum 或字符串）
-- `on_click`: 回调函数或URL字符串
+**Key Parameters:**
+- `title`: Notification title
+- `body`: Notification body
+- `image_src`: Image source URL/path
+- `image_placement`: Image placement (`ImagePlacement` enum or string)
+- `icon_src`: Icon source URL/path
+- `icon_placement`: Icon placement (`IconPlacement` enum or string)
+- `icon_hint_crop`: Icon crop hint (`IconCrop` enum or string)
+- `audio`: Audio source (`AudioEvent` enum, URL, or file path), `None` for silent
+- `audio_loop`: Whether to loop the audio
+- `duration`: Toast duration (`ToastDuration` enum or string)
+- `on_click`: Callback function or URL string
 
 #### `notify_progress(title, status, value, value_string_override, ...)`
 
-使用参数化API创建进度通知。
+Create a progress notification with parameterized API.
 
-**主要参数:**
-- `title`: 进度条标题
-- `status`: 状态文本
-- `value`: 进度值（0.0到1.0）
-- `value_string_override`: 自定义进度字符串
-- `tag`: 通知标签（默认：`'my_tag'`）
+**Key Parameters:**
+- `title`: Progress bar title
+- `status`: Status text
+- `value`: Progress value (0.0 to 1.0)
+- `value_string_override`: Custom progress string
+- `tag`: Notification tag for updates (default: `'my_tag'`)
 
 #### `update_progress(value, status, value_string_override, tag, ...)`
 
-更新进度通知。
+Update a progress notification.
 
-**主要参数:**
-- `value`: 进度值（0.0到1.0）
-- `status`: 要更新的状态文本
-- `value_string_override`: 自定义进度字符串
-- `tag`: 通知标签（必须与原始匹配）
+**Key Parameters:**
+- `value`: Progress value (0.0 to 1.0)
+- `status`: Status text to update
+- `value_string_override`: Custom progress string
+- `tag`: Notification tag (must match original)
 
 #### `toast_async(...)`
 
-`toast` 的异步版本。
+Async version of `toast`.
 
 #### `notify(...)`
 
-底层通知函数（非阻塞）。
+Low-level notification function (non-blocking).
 
 #### `clear_toast(app_id, tag, group)`
 
-从历史记录中清除通知。
+Clear notifications from history.
 
-## 改进
+## Improvements
 
-### 新功能
+### What's New
 
-1. **完全参数化API**
-   - 移除了所有字典支持
-   - 使用 StrEnum 提供更好的 IDE 支持
-   - 所有函数都有完整的类型提示
+1. **Fully Parameterized API**
+   - Removed all dictionary support
+   - Use StrEnum for better IDE support
+   - Complete type hints for all functions
 
-2. **内置资源**
-   - `AudioEvent` - Windows 内置音频事件枚举
-   - `ToastDuration` - 通知持续时间枚举（包含无超时场景）
-   - `OcrLanguage` - OCR 语言选项枚举
-   - `ImagePlacement`, `IconPlacement`, `IconCrop` - 图片和图标选项枚举
+2. **Built-in Resources**
+   - `AudioEvent` - Windows built-in audio event enums
+   - `ToastDuration` - Toast duration enums (including no-timeout scenarios)
+   - `OcrLanguage` - OCR language option enums
+   - `ImagePlacement`, `IconPlacement`, `IconCrop` - Image and icon option enums
 
-3. **进度通知**
-   - `notify_progress()` - 创建进度通知
-   - `update_progress()` - 更新进度
-   - 支持多个并发通知
+3. **Progress Notifications**
+   - `notify_progress()` - Create progress notifications
+   - `update_progress()` - Update progress
+   - Support for multiple concurrent notifications
 
-4. **音频改进**
-   - `audio=None` 表示静音（替代 `audio={'silent': 'true'}`）
-   - `audio_loop` 参数用于循环播放
-   - 支持 `AudioEvent` enum 和字符串
+4. **Audio Improvements**
+   - `audio=None` means silent (instead of `audio={'silent': 'true'}`)
+   - `audio_loop` parameter for looping
+   - Support for `AudioEvent` enum and strings
 
-5. **OCR 改进**
-   - 参数化的 `lang` 参数
-   - 支持 `OcrLanguage` enum
+5. **OCR Improvements**
+   - Parameterized `lang` parameter
+   - Support for `OcrLanguage` enum
 
-6. **错误修复**
-   - 修复了 `user_input()` 类型错误
-   - 修复了通知更新问题
-   - 修复了默认 `on_click` 打印多余输出的问题
+6. **Bug Fixes**
+   - Fixed `user_input()` TypeError
+   - Fixed notification update issues
+   - Fixed default `on_click` printing unwanted output
 
-7. **文档**
-   - 双语注释（英文/中文）
-   - 完整的类型提示
-   - 全面的示例
+7. **Documentation**
+   - Bilingual comments (English/Chinese)
+   - Complete type hints
+   - Comprehensive examples
 
-## 要求
+## Requirements
 
-- Windows 10 或 11
+- Windows 10 or 11
 - Python 3.7+
-- `winrt` 包
+- `winrt` package
 
-## 许可证
+## License
 
 MIT License
 
-## 致谢
+## Acknowledgements
 
 - [winsdk_toast](https://github.com/...)
 - [Windows-Toasts](https://github.com/...)
 - [MarcAlx/notification.py](https://github.com/...)
 
-## 相关链接
+## Related Links
 
 - [Toast XML Schema](https://learn.microsoft.com/en-us/uwp/schemas/tiles/toastschema/element-toast)
 - [Toast Progress Bar](https://learn.microsoft.com/en-us/windows/apps/design/shell/tiles-and-notifications/toast-progress-bar)
 - [Notifications Visualizer](https://apps.microsoft.com/store/detail/notifications-visualizer/9NBLGGH5XSL1)
 
-## 完整示例
+## Complete Examples
 
-查看 `examples.py` 文件获取所有功能的完整示例。
+See `examples.py` file for complete examples of all features.
