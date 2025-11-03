@@ -1,7 +1,7 @@
 [project]
 name = "windows11toast"
-version = "1.2.0"
-description = "Toast notifications for Windows 10 and 11"
+version = "1.2.2"
+description = "基于 WinRT 的 Windows 10 和 11 通知库"
 readme = "README.md"
 requires-python = ">=3.9,<3.14"
 license = { text = "MIT" }
