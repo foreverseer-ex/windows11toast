@@ -17,16 +17,16 @@ def notify_progress(title: Optional[str] = None,
                     group: Optional[str] = None,
                     # Icon options / 图标选项
                     icon_src: Optional[str] = None,
-                    icon_placement: Optional[Union[str, IconPlacement]] = None,
-                    icon_hint_crop: Optional[Union[str, IconCrop]] = None,
+                    icon_placement: Optional[IconPlacement] = None,
+                    icon_hint_crop: Optional[IconCrop] = None,
                     # Image options / 图片选项
                     image_src: Optional[str] = None,
-                    image_placement: Optional[Union[str, ImagePlacement]] = None,
+                    image_placement: Optional[ImagePlacement] = None,
                     # Audio options / 音频选项
                     audio: Optional[Union[str, AudioEvent]] = None,
                     audio_loop: bool = False,
                     # Duration / 持续时间
-                    duration: Optional[Union[str, ToastDuration]] = None,
+                    duration: Optional[ToastDuration] = None,
                     # Callback / 回调
                     on_click: Optional[Union[Callable, str]] = None) -> ToastNotification:
     """
@@ -44,19 +44,19 @@ def notify_progress(title: Optional[str] = None,
 
         # Icon options / 图标选项
         icon_src: Icon source URL/path / 图标源URL/路径
-        icon_placement: Icon placement (IconPlacement enum or str) / 图标位置（IconPlacement枚举或字符串）
-        icon_hint_crop: Icon crop hint (IconCrop enum or str) / 图标裁剪提示（IconCrop枚举或字符串）
+        icon_placement: Icon placement (IconPlacement enum only) / 图标位置（仅IconPlacement枚举）
+        icon_hint_crop: Icon crop hint (IconCrop enum only) / 图标裁剪提示（仅IconCrop枚举）
 
         # Image options / 图片选项
         image_src: Image source URL/path / 图片源URL/路径
-        image_placement: Image placement (ImagePlacement enum or str) / 图片位置（ImagePlacement枚举或字符串）
+        image_placement: Image placement (ImagePlacement enum only) / 图片位置（仅ImagePlacement枚举）
 
         # Audio options / 音频选项
-        audio: Audio source (AudioEvent enum, URL, or file path). None for silent / 音频源（AudioEvent枚举、URL或文件路径）。None表示静音
+        audio: Audio source (AudioEvent enum for built-in sounds, or URL/file path string). None for silent / 音频源（AudioEvent枚举用于内置声音，或URL/文件路径字符串）。None表示静音
         audio_loop: Whether to loop the audio / 是否循环播放音频
 
         # Duration / 持续时间
-        duration: Toast duration (ToastDuration enum or str) / 通知持续时间（ToastDuration枚举或字符串）
+        duration: Toast duration (ToastDuration enum only) / 通知持续时间（仅ToastDuration枚举）
 
         # Callback / 回调
         on_click: Callback function or URL string / 回调函数或URL字符串

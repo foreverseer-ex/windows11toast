@@ -1,6 +1,6 @@
 [project]
 name = "windows11toast"
-version = "1.2.4"
+version = "1.2.6"
 description = "基于 WinRT 的 Windows 11 通知库"
 readme = "README.md"
 requires-python = ">=3.9,<3.14"

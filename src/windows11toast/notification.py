@@ -30,11 +30,11 @@ def notify(title: Optional[str] = None, body: Optional[str] = None,
            on_click: Optional[Union[Callable, str]] = None,
            # Image options / 图片选项
            image_src: Optional[str] = None,
-           image_placement: Optional[Union[str, ImagePlacement]] = None,
+           image_placement: Optional[ImagePlacement] = None,
            # Icon options / 图标选项
            icon_src: Optional[str] = None,
-           icon_placement: Optional[Union[str, IconPlacement]] = None,
-           icon_hint_crop: Optional[Union[str, IconCrop]] = None,
+           icon_placement: Optional[IconPlacement] = None,
+           icon_hint_crop: Optional[IconCrop] = None,
            # Progress options / 进度选项
            progress_title: Optional[str] = None,
            progress_status: Optional[str] = None,
@@ -46,7 +46,7 @@ def notify(title: Optional[str] = None, body: Optional[str] = None,
            # Text-to-speech / 文本转语音
            dialogue: Optional[str] = None,
            # Duration / 持续时间
-           duration: Optional[Union[str, ToastDuration]] = None,
+           duration: Optional[ToastDuration] = None,
            # Input options / 输入选项
            input_id: Optional[str] = None,
            input_placeholder: Optional[str] = None,
@@ -72,12 +72,12 @@ def notify(title: Optional[str] = None, body: Optional[str] = None,
 
         # Image options / 图片选项
         image_src: Image source URL/path / 图片源URL/路径
-        image_placement: Image placement (ImagePlacement enum or str) / 图片位置（ImagePlacement枚举或字符串）
+        image_placement: Image placement (ImagePlacement enum only) / 图片位置（仅ImagePlacement枚举）
 
         # Icon options / 图标选项
         icon_src: Icon source URL/path / 图标源URL/路径
-        icon_placement: Icon placement (IconPlacement enum or str) / 图标位置（IconPlacement枚举或字符串）
-        icon_hint_crop: Icon crop hint (IconCrop enum or str) / 图标裁剪提示（IconCrop枚举或字符串）
+        icon_placement: Icon placement (IconPlacement enum only) / 图标位置（仅IconPlacement枚举）
+        icon_hint_crop: Icon crop hint (IconCrop enum only) / 图标裁剪提示（仅IconCrop枚举）
 
         # Progress options / 进度选项
         progress_title: Progress bar title / 进度条标题
@@ -86,14 +86,14 @@ def notify(title: Optional[str] = None, body: Optional[str] = None,
         progress_value_string_override: Custom progress string / 自定义进度字符串
 
         # Audio options / 音频选项
-        audio: Audio source (AudioEvent enum, URL, or file path). None for silent / 音频源（AudioEvent枚举、URL或文件路径）。None表示静音
+        audio: Audio source (AudioEvent enum for built-in sounds, or URL/file path string). None for silent / 音频源（AudioEvent枚举用于内置声音，或URL/文件路径字符串）。None表示静音
         audio_loop: Whether to loop the audio / 是否循环播放音频
 
         # Text-to-speech / 文本转语音
         dialogue: Text to speak / 要朗读的文本
 
         # Duration / 持续时间
-        duration: Toast duration (ToastDuration enum or str) / 通知持续时间（ToastDuration枚举或字符串）
+        duration: Toast duration (ToastDuration enum only) / 通知持续时间（仅ToastDuration枚举）
 
         # Input options / 输入选项
         input_id: Input field ID / 输入字段ID
@@ -133,12 +133,12 @@ def notify(title: Optional[str] = None, body: Optional[str] = None,
     scenario = None
     duration_str = None
     if duration:
-        duration_str = str(duration)
+        duration_value = str(duration)
         # Check if duration is a scenario (no timeout) / 检查duration是否为场景（无超时）
-        if duration_str in ['alarm', 'reminder', 'incomingCall', 'urgent']:
-            scenario = duration_str
-        else:
-            duration_str = duration_str if duration_str in ['short', 'long'] else None
+        if duration in [ToastDuration.ALARM, ToastDuration.REMINDER, ToastDuration.INCOMING_CALL, ToastDuration.URGENT]:
+            scenario = duration_value
+        elif duration in [ToastDuration.SHORT, ToastDuration.LONG]:
+            duration_str = duration_value
 
     document = XmlDocument()
     # Use the xml parameter if provided, otherwise use default template / 如果提供了xml参数则使用，否则使用默认模板
@@ -291,7 +291,7 @@ async def toast_async(title: Optional[str] = None, body: Optional[str] = None,
                       progress: Optional[Dict[str, Any]] = None,
                       audio: Optional[Union[str, Dict[str, str]]] = None,
                       dialogue: Optional[str] = None,
-                      duration: Optional[str] = None,
+                      duration: Optional[ToastDuration] = None,
                       input: Optional[Union[str, Dict[str, str]]] = None,
                       inputs: Optional[List[Union[str, Dict[str, str]]]] = None,
                       selection: Optional[Union[List[str], Dict[str, Any]]] = None,
@@ -308,11 +308,24 @@ async def toast_async(title: Optional[str] = None, body: Optional[str] = None,
                       group: Optional[str] = None,
                       # Parameterized image options / 参数化的图片选项
                       image_src: Optional[str] = None,
-                      image_placement: Optional[str] = None,
+                      image_placement: Optional[ImagePlacement] = None,
                       # Parameterized icon options / 参数化的图标选项
                       icon_src: Optional[str] = None,
-                      icon_placement: Optional[str] = None,
-                      icon_hint_crop: Optional[str] = None) -> Dict[str, Any]:
+                      icon_placement: Optional[IconPlacement] = None,
+                      icon_hint_crop: Optional[IconCrop] = None,
+                      # Parameterized progress options / 参数化的进度选项
+                      progress_title: Optional[str] = None,
+                      progress_status: Optional[str] = None,
+                      progress_value: Optional[float] = None,
+                      progress_value_string_override: Optional[str] = None,
+                      # Parameterized input options / 参数化的输入选项
+                      input_id: Optional[str] = None,
+                      input_placeholder: Optional[str] = None,
+                      selection_id: Optional[str] = None,
+                      # Parameterized button options / 参数化的按钮选项
+                      button_content: Optional[str] = None,
+                      # Parameterized audio options / 参数化的音频选项
+                      audio_loop: bool = False) -> Dict[str, Any]:
     """
     Create and show a Windows toast notification (async version).
     创建并显示一个 Windows 通知（异步版本）。
@@ -328,7 +341,7 @@ async def toast_async(title: Optional[str] = None, body: Optional[str] = None,
         progress: Dictionary with progress values / 进度值字典
         audio: Audio file path or Windows sound event / 音频文件路径或Windows声音事件
         dialogue: Text to speak / 要朗读的文本
-        duration: Toast duration ('short' or 'long') / 通知持续时间（'short' 或 'long'）
+        duration: Toast duration (ToastDuration enum only) / 通知持续时间（仅ToastDuration枚举）
         input: Single input field / 单个输入字段
         inputs: List of input fields / 输入字段列表
         selection: Single selection field / 单个选择字段
@@ -344,22 +357,36 @@ async def toast_async(title: Optional[str] = None, body: Optional[str] = None,
 
         # Parameterized image options (alternative to image dict) / 参数化的图片选项（替代图片字典）
         image_src: Image source URL/path / 图片源URL/路径
-        image_placement: Image placement ('hero', 'appLogoOverride', 'inline') / 图片位置（'hero', 'appLogoOverride', 'inline'）
+        image_placement: Image placement (ImagePlacement enum only) / 图片位置（仅ImagePlacement枚举）
 
         # Parameterized icon options (alternative to icon dict) / 参数化的图标选项（替代图标字典）
         icon_src: Icon source URL/path / 图标源URL/路径
-        icon_placement: Icon placement ('appLogoOverride', 'appLogoOverrideAndHero') / 图标位置（'appLogoOverride', 'appLogoOverrideAndHero'）
-        icon_hint_crop: Icon crop hint ('circle', 'none') / 图标裁剪提示（'circle', 'none'）
+        icon_placement: Icon placement (IconPlacement enum only) / 图标位置（仅IconPlacement枚举）
+        icon_hint_crop: Icon crop hint (IconCrop enum only) / 图标裁剪提示（仅IconCrop枚举）
 
-    Returns / 返回:
-        Result dictionary / 结果字典
+        # Parameterized progress options (alternative to progress dict) / 参数化的进度选项（替代进度字典）
+        progress_title: Progress bar title / 进度条标题
+        progress_status: Progress status text / 进度状态文本
+        progress_value: Progress value (0.0 to 1.0) / 进度值（0.0到1.0）
+        progress_value_string_override: Custom progress string / 自定义进度字符串
+
+        # Parameterized input options (alternative to input dict) / 参数化的输入选项（替代输入字典）
+        input_id: Input field ID / 输入字段ID
+        input_placeholder: Input placeholder text / 输入占位符文本
+        selection_id: Selection field ID / 选择字段ID
+
+        # Parameterized button options (alternative to button dict) / 参数化的按钮选项（替代按钮字典）
+        button_content: Single button content / 单个按钮内容
+
+        # Parameterized audio options (alternative to audio dict) / 参数化的音频选项（替代音频字典）
+        audio_loop: Whether to loop the audio / 是否循环播放音频
 
     Examples / 示例:
         # Simple notification / 简单通知
         await toast_async('Hello', 'World')
 
         # With parameterized image / 使用参数化的图片
-        await toast_async('Hello', 'World', image_src='path/to/image.jpg', image_placement='hero')
+        await toast_async('Hello', 'World', image_src='path/to/image.jpg', image_placement=ImagePlacement.HERO)
     """
     # Handle OCR first / 首先处理OCR
     if ocr:
@@ -378,9 +405,19 @@ async def toast_async(title: Optional[str] = None, body: Optional[str] = None,
         elif isinstance(icon, dict):
             icon_src = icon.get('src')
             if not icon_placement:
-                icon_placement = icon.get('placement')
+                placement_str = icon.get('placement')
+                if placement_str:
+                    # Convert string to enum / 将字符串转换为枚举
+                    placement_upper = placement_str.replace('-', '_').upper()
+                    if hasattr(IconPlacement, placement_upper):
+                        icon_placement = getattr(IconPlacement, placement_upper)
             if not icon_hint_crop:
-                icon_hint_crop = icon.get('hint-crop')
+                hint_crop_str = icon.get('hint-crop')
+                if hint_crop_str:
+                    # Convert string to enum / 将字符串转换为枚举
+                    hint_crop_upper = hint_crop_str.upper()
+                    if hasattr(IconCrop, hint_crop_upper):
+                        icon_hint_crop = getattr(IconCrop, hint_crop_upper)
 
     if image and not image_src:
         if isinstance(image, str):
@@ -388,65 +425,82 @@ async def toast_async(title: Optional[str] = None, body: Optional[str] = None,
         elif isinstance(image, dict):
             image_src = image.get('src')
             if not image_placement:
-                image_placement = image.get('placement')
+                placement_str = image.get('placement')
+                if placement_str:
+                    # Convert string to enum / 将字符串转换为枚举
+                    placement_upper = placement_str.replace('-', '_').upper()
+                    if hasattr(ImagePlacement, placement_upper):
+                        image_placement = getattr(ImagePlacement, placement_upper)
 
     # Convert progress dict to parameterized format / 将进度字典转换为参数化格式
-    progress_title = None
-    progress_status = None
-    progress_value = None
-    progress_value_string_override = None
-    if progress:
-        progress_title = progress.get('title')
-        progress_status = progress.get('status')
-        if 'value' in progress:
-            progress_value = float(progress['value'])
-        progress_value_string_override = progress.get('valueStringOverride')
+    # Use parameterized form if provided, otherwise use dict / 如果提供了参数化形式则使用，否则使用字典
+    if progress_title is None and progress_status is None and progress_value is None and progress_value_string_override is None:
+        if progress:
+            progress_title = progress.get('title')
+            progress_status = progress.get('status')
+            if 'value' in progress:
+                progress_value = float(progress['value'])
+            progress_value_string_override = progress.get('valueStringOverride')
+    else:
+        # Parameterized form takes precedence / 参数化形式优先
+        pass
 
     # Convert audio dict to parameterized format / 将音频字典转换为参数化格式
     audio_src = audio
-    audio_loop_flag = False
+    audio_loop_flag = audio_loop  # Use parameterized audio_loop if provided / 如果提供了参数化的audio_loop则使用
     if isinstance(audio, dict):
         audio_src = audio.get('src')
-        audio_loop_flag = audio.get('loop') == 'true' or audio.get('loop') is True
+        if not audio_loop_flag:  # Only override if not explicitly set / 只有在未明确设置时才覆盖
+            audio_loop_flag = audio.get('loop') == 'true' or audio.get('loop') is True
+    elif isinstance(audio, str):
+        audio_src = audio
 
-    # Convert duration to ToastDuration enum if needed / 如果需要，将duration转换为ToastDuration枚举
+    # Duration should already be a ToastDuration enum / duration应该已经是ToastDuration枚举
     duration_enum = duration
-    if isinstance(duration, str):
-        # Try to match to ToastDuration enum / 尝试匹配到ToastDuration枚举
-        duration_upper = duration.upper()
-        if hasattr(ToastDuration, duration_upper):
-            duration_enum = getattr(ToastDuration, duration_upper)
 
     # Convert input to parameterized format / 将输入转换为参数化格式
-    input_id_param = None
-    input_placeholder_param = None
-    if input:
-        if isinstance(input, str):
-            input_id_param = input
-            input_placeholder_param = input
-        elif isinstance(input, dict):
-            input_id_param = input.get('id')
-            input_placeholder_param = input.get('placeHolderContent') or input.get('placeholder')
+    # Use parameterized form if provided, otherwise use dict / 如果提供了参数化形式则使用，否则使用字典
+    input_id_param = input_id
+    input_placeholder_param = input_placeholder
+    if input_id_param is None and input_placeholder_param is None:
+        if input:
+            if isinstance(input, str):
+                input_id_param = input
+                input_placeholder_param = input
+            elif isinstance(input, dict):
+                input_id_param = input.get('id')
+                input_placeholder_param = input.get('placeHolderContent') or input.get('placeholder')
+        # Also check inputs list / 同时检查inputs列表
+        if inputs and input_id_param is None:
+            # Use first input if available / 如果可用则使用第一个输入
+            first_input = inputs[0] if inputs else None
+            if isinstance(first_input, dict):
+                input_id_param = first_input.get('id')
+                input_placeholder_param = first_input.get('placeHolderContent') or first_input.get('placeholder')
 
     # Convert selection to parameterized format / 将选择转换为参数化格式
-    selection_id_param = None
-    selections_param = None
-    if selection:
-        if isinstance(selection, list):
-            selection_id_param = 'selection'
-            selections_param = selection
-        elif isinstance(selection, dict):
-            selection_id_param = selection.get('input', {}).get('id', 'selection')
-            selections_param = selection.get('selection', [])
+    # Use parameterized form if provided, otherwise use dict / 如果提供了参数化形式则使用，否则使用字典
+    selection_id_param = selection_id
+    selections_param = selections
+    if selection_id_param is None:
+        if selection:
+            if isinstance(selection, list):
+                selection_id_param = 'selection'
+                selections_param = selection
+            elif isinstance(selection, dict):
+                selection_id_param = selection.get('input', {}).get('id', 'selection')
+                selections_param = selection.get('selection', [])
 
     # Convert button to parameterized format / 将按钮转换为参数化格式
-    button_content_param = None
+    # Use parameterized form if provided, otherwise use dict / 如果提供了参数化形式则使用，否则使用字典
+    button_content_param = button_content
     buttons_param = buttons
-    if button:
-        if isinstance(button, str):
-            button_content_param = button
-        elif isinstance(button, dict):
-            button_content_param = button.get('content')
+    if button_content_param is None:
+        if button:
+            if isinstance(button, str):
+                button_content_param = button
+            elif isinstance(button, dict):
+                button_content_param = button.get('content')
 
     notification = notify(
         title=title,
@@ -533,7 +587,7 @@ def toast(title: Optional[str] = None, body: Optional[str] = None,
           progress: Optional[Dict[str, Any]] = None,
           audio: Optional[Union[str, Dict[str, str]]] = None,
           dialogue: Optional[str] = None,
-          duration: Optional[str] = None,
+          duration: Optional[ToastDuration] = None,
           input: Optional[Union[str, Dict[str, str]]] = None,
           inputs: Optional[List[Union[str, Dict[str, str]]]] = None,
           selection: Optional[Union[List[str], Dict[str, Any]]] = None,
@@ -550,11 +604,24 @@ def toast(title: Optional[str] = None, body: Optional[str] = None,
           group: Optional[str] = None,
           # Parameterized image options / 参数化的图片选项
           image_src: Optional[str] = None,
-          image_placement: Optional[str] = None,
+          image_placement: Optional[ImagePlacement] = None,
           # Parameterized icon options / 参数化的图标选项
           icon_src: Optional[str] = None,
-          icon_placement: Optional[str] = None,
-          icon_hint_crop: Optional[str] = None) -> Union[Dict[str, Any], Any]:
+          icon_placement: Optional[IconPlacement] = None,
+          icon_hint_crop: Optional[IconCrop] = None,
+          # Parameterized progress options / 参数化的进度选项
+          progress_title: Optional[str] = None,
+          progress_status: Optional[str] = None,
+          progress_value: Optional[float] = None,
+          progress_value_string_override: Optional[str] = None,
+          # Parameterized input options / 参数化的输入选项
+          input_id: Optional[str] = None,
+          input_placeholder: Optional[str] = None,
+          selection_id: Optional[str] = None,
+          # Parameterized button options / 参数化的按钮选项
+          button_content: Optional[str] = None,
+          # Parameterized audio options / 参数化的音频选项
+          audio_loop: bool = False) -> Union[Dict[str, Any], Any]:
     """
     Create and show a Windows toast notification (synchronous wrapper).
     创建并显示一个 Windows 通知（同步包装器）。
@@ -570,7 +637,7 @@ def toast(title: Optional[str] = None, body: Optional[str] = None,
         progress: Dictionary with progress values / 进度值字典
         audio: Audio file path or Windows sound event / 音频文件路径或Windows声音事件
         dialogue: Text to speak / 要朗读的文本
-        duration: Toast duration ('short' or 'long') / 通知持续时间（'short' 或 'long'）
+        duration: Toast duration (ToastDuration enum only) / 通知持续时间（仅ToastDuration枚举）
         input: Single input field / 单个输入字段
         inputs: List of input fields / 输入字段列表
         selection: Single selection field / 单个选择字段
@@ -586,12 +653,29 @@ def toast(title: Optional[str] = None, body: Optional[str] = None,
 
         # Parameterized image options (alternative to image dict) / 参数化的图片选项（替代图片字典）
         image_src: Image source URL/path / 图片源URL/路径
-        image_placement: Image placement ('hero', 'appLogoOverride', 'inline') / 图片位置（'hero', 'appLogoOverride', 'inline'）
+        image_placement: Image placement (ImagePlacement enum only) / 图片位置（仅ImagePlacement枚举）
 
         # Parameterized icon options (alternative to icon dict) / 参数化的图标选项（替代图标字典）
         icon_src: Icon source URL/path / 图标源URL/路径
-        icon_placement: Icon placement ('appLogoOverride', 'appLogoOverrideAndHero') / 图标位置（'appLogoOverride', 'appLogoOverrideAndHero'）
-        icon_hint_crop: Icon crop hint ('circle', 'none') / 图标裁剪提示（'circle', 'none'）
+        icon_placement: Icon placement (IconPlacement enum only) / 图标位置（仅IconPlacement枚举）
+        icon_hint_crop: Icon crop hint (IconCrop enum only) / 图标裁剪提示（仅IconCrop枚举）
+
+        # Parameterized progress options (alternative to progress dict) / 参数化的进度选项（替代进度字典）
+        progress_title: Progress bar title / 进度条标题
+        progress_status: Progress status text / 进度状态文本
+        progress_value: Progress value (0.0 to 1.0) / 进度值（0.0到1.0）
+        progress_value_string_override: Custom progress string / 自定义进度字符串
+
+        # Parameterized input options (alternative to input dict) / 参数化的输入选项（替代输入字典）
+        input_id: Input field ID / 输入字段ID
+        input_placeholder: Input placeholder text / 输入占位符文本
+        selection_id: Selection field ID / 选择字段ID
+
+        # Parameterized button options (alternative to button dict) / 参数化的按钮选项（替代按钮字典）
+        button_content: Single button content / 单个按钮内容
+
+        # Parameterized audio options (alternative to audio dict) / 参数化的音频选项（替代音频字典）
+        audio_loop: Whether to loop the audio / 是否循环播放音频
 
     Returns / 返回:
         Result dictionary or Future object / 结果字典或Future对象
@@ -601,17 +685,20 @@ def toast(title: Optional[str] = None, body: Optional[str] = None,
         toast('Hello', 'World')
 
         # With parameterized image / 使用参数化的图片
-        toast('Hello', 'World', image_src='path/to/image.jpg', image_placement='hero')
+        toast('Hello', 'World', image_src='path/to/image.jpg', image_placement=ImagePlacement.HERO)
 
         # With parameterized icon / 使用参数化的图标
-        toast('Hello', 'World', icon_src='path/to/icon.png', icon_placement='appLogoOverride')
+        toast('Hello', 'World', icon_src='path/to/icon.png', icon_placement=IconPlacement.APP_LOGO_OVERRIDE)
     """
     toast_coroutine = toast_async(title, body, on_click, icon, image, progress, audio,
                                   dialogue, duration, input, inputs, selection, selections, button, buttons,
                                   xml, app_id, ocr, on_dismissed, on_failed,
                                   scenario, tag, group,
                                   image_src, image_placement,
-                                  icon_src, icon_placement, icon_hint_crop)
+                                  icon_src, icon_placement, icon_hint_crop,
+                                  progress_title, progress_status, progress_value, progress_value_string_override,
+                                  input_id, input_placeholder, selection_id,
+                                  button_content, audio_loop)
 
     # check if there is an existing loop
     try:
@@ -639,7 +726,7 @@ async def atoast(title: Optional[str] = None, body: Optional[str] = None,
                  progress: Optional[Dict[str, Any]] = None,
                  audio: Optional[Union[str, Dict[str, str]]] = None,
                  dialogue: Optional[str] = None,
-                 duration: Optional[str] = None,
+                 duration: Optional[ToastDuration] = None,
                  input: Optional[Union[str, Dict[str, str]]] = None,
                  inputs: Optional[List[Union[str, Dict[str, str]]]] = None,
                  selection: Optional[Union[List[str], Dict[str, Any]]] = None,
@@ -656,11 +743,24 @@ async def atoast(title: Optional[str] = None, body: Optional[str] = None,
                  group: Optional[str] = None,
                  # Parameterized image options / 参数化的图片选项
                  image_src: Optional[str] = None,
-                 image_placement: Optional[str] = None,
+                 image_placement: Optional[ImagePlacement] = None,
                  # Parameterized icon options / 参数化的图标选项
                  icon_src: Optional[str] = None,
-                 icon_placement: Optional[str] = None,
-                 icon_hint_crop: Optional[str] = None) -> Dict[str, Any]:
+                 icon_placement: Optional[IconPlacement] = None,
+                 icon_hint_crop: Optional[IconCrop] = None,
+                 # Parameterized progress options / 参数化的进度选项
+                 progress_title: Optional[str] = None,
+                 progress_status: Optional[str] = None,
+                 progress_value: Optional[float] = None,
+                 progress_value_string_override: Optional[str] = None,
+                 # Parameterized input options / 参数化的输入选项
+                 input_id: Optional[str] = None,
+                 input_placeholder: Optional[str] = None,
+                 selection_id: Optional[str] = None,
+                 # Parameterized button options / 参数化的按钮选项
+                 button_content: Optional[str] = None,
+                 # Parameterized audio options / 参数化的音频选项
+                 audio_loop: bool = False) -> Dict[str, Any]:
     """
     Async alias for toast_async.
     toast_async 的异步别名。
@@ -670,7 +770,10 @@ async def atoast(title: Optional[str] = None, body: Optional[str] = None,
                              xml, app_id, ocr, on_dismissed, on_failed,
                              scenario, tag, group,
                              image_src, image_placement,
-                             icon_src, icon_placement, icon_hint_crop)
+                             icon_src, icon_placement, icon_hint_crop,
+                             progress_title, progress_status, progress_value, progress_value_string_override,
+                             input_id, input_placeholder, selection_id,
+                             button_content, audio_loop)
 
 
 def clear_toast(app_id: str = DEFAULT_APP_ID, tag: Optional[str] = None, group: Optional[str] = None) -> None:

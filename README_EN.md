@@ -4,6 +4,8 @@ Toast notifications for Windows 11 based on WinRT
 
 A library for Windows 11 toast notifications based on WinRT
 
+![Example](example.png)
+
 ## Installation
 
 ### Recommended (using uv)
@@ -106,18 +108,9 @@ toast(
 )
 ```
 
-### Using String
+## Parameterized Icon
 
-```python
-from windows11toast import toast
-
-toast(
-    'Hello',
-    'Hello from Python',
-    image_src='https://example.com/image.jpg',
-    image_placement='hero'  # String is also supported
-)
-```
+**Note:** The `image_placement`, `icon_placement`, `icon_hint_crop`, and `duration` parameters **only support enum types**, not strings. Please use the corresponding enum classes (`ImagePlacement`, `IconPlacement`, `IconCrop`, `ToastDuration`).
 
 ## Parameterized Icon
 
@@ -351,14 +344,6 @@ toast('Hello Python🐍', duration=ToastDuration.INCOMING_CALL)
 
 # No timeout - Urgent scenario
 toast('Hello Python🐍', duration=ToastDuration.URGENT)
-```
-
-### Using String
-
-```python
-from windows11toast import toast
-
-toast('Hello Python🐍', duration='long')  # String is also supported
 ```
 
 ## Buttons
@@ -738,14 +723,6 @@ def example_image_inline():
     )
 
 
-def example_image_with_string():
-    """Using String"""
-    toast(
-        'Hello',
-        'Hello from Python',
-        image_src='https://example.com/image.jpg',
-        image_placement='hero'  # String is also supported
-    )
 
 
 # ============================================================================
@@ -990,9 +967,6 @@ def example_duration_urgent():
     notify('Hello Python🐍', duration=ToastDuration.URGENT)
 
 
-def example_duration_string():
-    """Using String"""
-    toast('Hello Python🐍', duration='long')  # String is also supported
 
 
 # ============================================================================
@@ -1173,7 +1147,11 @@ def main():
     print("\n2. Image Notifications")
     example_image_with_strenum()
     sleep(1)
-    example_image_with_string()
+    example_image_local_file()
+    sleep(1)
+    example_image_app_logo()
+    sleep(1)
+    example_image_inline()
     sleep(2)
     
     # Icon notifications
@@ -1230,7 +1208,6 @@ def main():
 
 async def main_async():
     """Run async examples"""
-    import asyncio
     print("\nRunning async examples...")
     
     # OCR examples (require actual image files)

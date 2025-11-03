@@ -4,6 +4,8 @@
 
 Toast notifications for Windows 11 based on WinRT
 
+![示例图片](example.png)
+
 ## 安装
 
 ### 推荐方式（使用 uv）
@@ -106,18 +108,9 @@ toast(
 )
 ```
 
-### 使用字符串
+## 参数化图标
 
-```python
-from windows11toast import toast
-
-toast(
-    'Hello',
-    'Hello from Python',
-    image_src='https://example.com/image.jpg',
-    image_placement='hero'  # 也支持字符串
-)
-```
+**注意：** `image_placement`、`icon_placement`、`icon_hint_crop` 和 `duration` 参数**只支持枚举类型**，不支持字符串。请使用相应的枚举类（`ImagePlacement`、`IconPlacement`、`IconCrop`、`ToastDuration`）。
 
 ## 参数化图标
 
@@ -351,14 +344,6 @@ toast('Hello Python🐍', duration=ToastDuration.INCOMING_CALL)
 
 # 无超时 - 紧急场景
 toast('Hello Python🐍', duration=ToastDuration.URGENT)
-```
-
-### 使用字符串
-
-```python
-from windows11toast import toast
-
-toast('Hello Python🐍', duration='long')  # 也支持字符串
 ```
 
 ## 按钮
@@ -738,14 +723,6 @@ def example_image_inline():
     )
 
 
-def example_image_with_string():
-    """使用字符串 / Using String"""
-    toast(
-        'Hello',
-        'Hello from Python',
-        image_src='https://example.com/image.jpg',
-        image_placement='hero'  # 也支持字符串
-    )
 
 
 # ============================================================================
@@ -990,9 +967,6 @@ def example_duration_urgent():
     notify('Hello Python🐍', duration=ToastDuration.URGENT)
 
 
-def example_duration_string():
-    """使用字符串 / Using String"""
-    toast('Hello Python🐍', duration='long')  # 也支持字符串
 
 
 # ============================================================================
@@ -1173,7 +1147,11 @@ def main():
     print("\n2. 图片通知 / Image Notifications")
     example_image_with_strenum()
     sleep(1)
-    example_image_with_string()
+    example_image_local_file()
+    sleep(1)
+    example_image_app_logo()
+    sleep(1)
+    example_image_inline()
     sleep(2)
     
     # 图标通知
@@ -1232,7 +1210,6 @@ def main():
 
 async def main_async():
     """运行异步示例 / Run async examples"""
-    import asyncio
     print("\n运行异步示例 / Running async examples...")
     
     # OCR 示例（需要实际的图片文件）

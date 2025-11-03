@@ -28,8 +28,8 @@ def add_text(msg: Union[str, dict], document: XmlDocument) -> None:
     binding.append_child(text)
 
 
-def add_icon(icon_src: str, placement: Optional[Union[str, IconPlacement]] = None,
-             hint_crop: Optional[Union[str, IconCrop]] = None, document: Optional[XmlDocument] = None) -> None:
+def add_icon(icon_src: str, placement: Optional[IconPlacement] = None,
+             hint_crop: Optional[IconCrop] = None, document: Optional[XmlDocument] = None) -> None:
     """
     Add icon to toast notification.
     向通知添加图标。
@@ -55,7 +55,7 @@ def add_icon(icon_src: str, placement: Optional[Union[str, IconPlacement]] = Non
     binding.append_child(image)
 
 
-def add_image(image_src: str, placement: Optional[Union[str, ImagePlacement]] = None, 
+def add_image(image_src: str, placement: Optional[ImagePlacement] = None, 
               document: Optional[XmlDocument] = None) -> None:
     """
     Add image to toast notification.
