@@ -1,14 +1,34 @@
 # windows11toast
 
-Toast notifications for Windows 10 and 11 based on WinRT
+Toast notifications for Windows 11 based on WinRT
 
-A library for Windows 10 and 11 toast notifications based on WinRT
+A library for Windows 11 toast notifications based on WinRT
 
 ## Installation
+
+### Recommended (using uv)
+
+```bash
+# Install uv (if not already installed)
+# Windows PowerShell
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+
+# Initialize project (if pyproject.toml doesn't exist)
+uv init
+
+# Add dependency using uv
+uv add windows11toast
+```
+
+### Using pip
 
 ```bash
 pip install windows11toast
 ```
+
+**Requirements:**
+- Windows 11
+- Python 3.9 - 3.13
 
 ## Features
 
@@ -601,9 +621,9 @@ Clear notifications from history.
 
 ## Requirements
 
-- Windows 10 or 11
-- Python 3.7+
-- `winrt` package
+- Windows 11
+- Python 3.9 - 3.13
+- `winrt` package (installed automatically)
 
 ## License
 
@@ -633,4 +653,603 @@ Other referenced projects:
 
 ## Complete Examples
 
-See `examples.py` file for complete examples of all features.
+Complete examples for all features:
+
+```python
+from time import sleep
+
+from windows11toast import (
+    toast,
+    notify,
+    notify_progress,
+    update_progress,
+    ImagePlacement,
+    IconPlacement,
+    IconCrop,
+    AudioEvent,
+    ToastDuration,
+    OcrLanguage,
+    recognize,
+    toast_async
+)
+
+
+# ============================================================================
+# 1. Basic Notifications
+# ============================================================================
+
+def example_simple_notification():
+    """Simple Notification"""
+    toast('Hello Python🐍')
+
+
+def example_notification_with_title_and_body():
+    """With Title and Body"""
+    toast('Hello Python', 'Click to open url', on_click='https://www.python.org')
+
+
+def example_wrap_text():
+    """Wrap Text"""
+    toast('Hello', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit...')
+
+
+# ============================================================================
+# 2. Image Notifications
+# ============================================================================
+
+def example_image_with_strenum():
+    """Using StrEnum"""
+    # Hero image (large image)
+    toast(
+        'Hello',
+        'Hello from Python',
+        image_src='https://example.com/image.jpg',
+        image_placement=ImagePlacement.HERO
+    )
+
+
+def example_image_local_file():
+    """Local File"""
+    toast(
+        'Hello',
+        'Hello from Python',
+        image_src=r'C:\Users\YourName\Pictures\image.jpg',
+        image_placement=ImagePlacement.HERO
+    )
+
+
+def example_image_app_logo():
+    """App Logo Override"""
+    toast(
+        'Hello',
+        'Hello from Python',
+        image_src='https://example.com/logo.png',
+        image_placement=ImagePlacement.APP_LOGO_OVERRIDE
+    )
+
+
+def example_image_inline():
+    """Inline Image"""
+    toast(
+        'Hello',
+        'Hello from Python',
+        image_src='https://example.com/image.jpg',
+        image_placement=ImagePlacement.INLINE
+    )
+
+
+def example_image_with_string():
+    """Using String"""
+    toast(
+        'Hello',
+        'Hello from Python',
+        image_src='https://example.com/image.jpg',
+        image_placement='hero'  # String is also supported
+    )
+
+
+# ============================================================================
+# 3. Icon Notifications
+# ============================================================================
+
+def example_icon_circular():
+    """Circular Icon"""
+    toast(
+        'Hello',
+        'Hello from Python',
+        icon_src='https://example.com/icon.png',
+        icon_placement=IconPlacement.APP_LOGO_OVERRIDE,
+        icon_hint_crop=IconCrop.CIRCLE
+    )
+
+
+def example_icon_square():
+    """Square Icon"""
+    toast(
+        'Hello',
+        'Hello from Python',
+        icon_src='https://example.com/icon.png',
+        icon_placement=IconPlacement.APP_LOGO_OVERRIDE,
+        icon_hint_crop=IconCrop.NONE
+    )
+
+
+# ============================================================================
+# 4. Progress Notifications
+# ============================================================================
+
+def example_progress_notification():
+    """Create Progress Notification"""
+    # Create progress notification
+    notify_progress(
+        title='YouTube',
+        status='Downloading...',
+        value=0.0,
+        value_string_override='0/15 videos'
+    )
+
+    # Update progress
+    for i in range(1, 16):
+        sleep(1)
+        update_progress(
+            value=i/15,
+            value_string_override=f'{i}/15 videos'
+        )
+
+    # Update status
+    update_progress(status='Completed!')
+
+
+def example_multiple_progress_notifications():
+    """Multiple Concurrent Progress Notifications"""
+    # Create multiple notifications with different tags
+    notify_progress(
+        title='Video 1',
+        status='Downloading...',
+        value=0.0,
+        tag='video1'
+    )
+
+    notify_progress(
+        title='Video 2',
+        status='Downloading...',
+        value=0.0,
+        tag='video2'
+    )
+
+    # Update each independently
+    update_progress(value=0.5, tag='video1')
+    update_progress(value=0.7, tag='video2')
+
+
+def example_progress_with_icon():
+    """Progress Notification with Icon"""
+    notify_progress(
+        title='Download',
+        status='Downloading file...',
+        value=0.0,
+        icon_src='https://example.com/icon.png',
+        icon_placement=IconPlacement.APP_LOGO_OVERRIDE,
+        icon_hint_crop=IconCrop.CIRCLE,
+        image_src='https://example.com/image.jpg',
+        image_placement=ImagePlacement.HERO
+    )
+
+
+# ============================================================================
+# 5. Audio Notifications
+# ============================================================================
+
+def example_audio_default():
+    """Default Notification Sound"""
+    notify('Hello', 'Hello from Python', audio=AudioEvent.DEFAULT)
+
+
+def example_audio_im():
+    """IM Sound"""
+    notify('Hello', 'Hello from Python', audio=AudioEvent.IM)
+
+
+def example_audio_mail():
+    """Mail Sound"""
+    notify('Hello', 'Hello from Python', audio=AudioEvent.MAIL)
+
+
+def example_audio_reminder():
+    """Reminder Sound"""
+    notify('Hello', 'Hello from Python', audio=AudioEvent.REMINDER)
+
+
+def example_audio_sms():
+    """SMS Sound"""
+    notify('Hello', 'Hello from Python', audio=AudioEvent.SMS)
+
+
+def example_audio_looping_alarm():
+    """Looping Alarm"""
+    notify('Hello', 'Hello from Python', audio=AudioEvent.LOOPING_ALARM)
+
+
+def example_audio_from_url():
+    """Audio from URL"""
+    toast('Hello', 'Hello from Python', audio='https://example.com/sound.mp3')
+
+
+def example_audio_from_file():
+    """Audio from File"""
+    toast('Hello', 'Hello from Python', audio=r'C:\Users\YourName\Music\sound.mp3')
+
+
+def example_audio_silent():
+    """Silent Notification"""
+    notify('Hello Python🐍', audio=None)  # audio=None means silent
+
+
+def example_audio_loop():
+    """Loop Audio"""
+    notify(
+        'Hello',
+        'Hello from Python',
+        audio=AudioEvent.LOOPING_ALARM,
+        audio_loop=True  # Loop the audio
+    )
+
+
+# ============================================================================
+# 6. Text-to-Speech
+# ============================================================================
+
+def example_text_to_speech():
+    """Text-to-Speech"""
+    toast('Hello Python🐍', dialogue='Hello world')
+
+
+# ============================================================================
+# 7. OCR
+# ============================================================================
+
+async def example_ocr_from_url():
+    """OCR from URL"""
+    result = await recognize('https://example.com/image.png')
+    print(result.text)
+
+
+async def example_ocr_from_file():
+    """OCR from File"""
+    result = await recognize(r'C:\Users\YourName\Pictures\image.png')
+    print(result.text)
+
+
+async def example_ocr_chinese():
+    """Specify Language - Chinese"""
+    result = await recognize(
+        r'C:\Users\YourName\Pictures\hello.png',
+        lang=OcrLanguage.ZH_CN  # Chinese
+    )
+    print(result.text)
+
+
+async def example_ocr_japanese():
+    """Specify Language - Japanese"""
+    result = await recognize(
+        r'C:\Users\YourName\Pictures\hello.png',
+        lang=OcrLanguage.JA  # Japanese
+    )
+    print(result.text)
+
+
+async def example_ocr_with_string():
+    """Using String for Language"""
+    result = await recognize(
+        r'C:\Users\YourName\Pictures\hello.png',
+        lang='en-US'  # English
+    )
+    print(result.text)
+
+
+async def example_ocr_auto():
+    """Auto-detect Language"""
+    result = await recognize(
+        r'C:\Users\YourName\Pictures\hello.png',
+        lang=None  # or lang=OcrLanguage.AUTO
+    )
+    print(result.text)
+
+
+# ============================================================================
+# 8. Duration
+# ============================================================================
+
+def example_duration_short():
+    """Short Duration (default)"""
+    notify('Hello Python🐍', duration=ToastDuration.SHORT)
+
+
+def example_duration_long():
+    """Long Duration (25 seconds)"""
+    notify('Hello Python🐍', duration=ToastDuration.LONG)
+
+
+def example_duration_alarm():
+    """No Timeout - Alarm Scenario"""
+    notify('Hello Python🐍', duration=ToastDuration.ALARM)
+
+
+def example_duration_reminder():
+    """No Timeout - Reminder Scenario"""
+    notify('Hello Python🐍', duration=ToastDuration.REMINDER)
+
+
+def example_duration_incoming_call():
+    """No Timeout - Incoming Call Scenario"""
+    notify('Hello Python🐍', duration=ToastDuration.INCOMING_CALL)
+
+
+def example_duration_urgent():
+    """No Timeout - Urgent Scenario"""
+    notify('Hello Python🐍', duration=ToastDuration.URGENT)
+
+
+def example_duration_string():
+    """Using String"""
+    toast('Hello Python🐍', duration='long')  # String is also supported
+
+
+# ============================================================================
+# 9. Buttons
+# ============================================================================
+
+def example_button_single():
+    """Single Button"""
+    notify('Hello', 'Hello from Python', button_content='Dismiss')
+
+
+def example_button_multiple():
+    """Multiple Buttons"""
+    notify('Hello', 'Click a button', buttons=['Approve', 'Dismiss', 'Other'])
+
+
+# ============================================================================
+# 10. Input Fields
+# ============================================================================
+
+def example_input_field():
+    """Input Field"""
+    result = notify(
+        'Hello',
+        'Type anything',
+        input_id='reply',
+        input_placeholder='Enter reply...',
+        button_content='Send'
+    )
+    # result['user_input'] will contain {'reply': 'user typed text'}
+    print(f"User input: {result.get('user_input', {})}")
+
+
+# ============================================================================
+# 11. Selection
+# ============================================================================
+
+def example_selection():
+    """Selection"""
+    result = notify(
+        'Hello',
+        'Which do you like?',
+        selection_id='fruit',
+        selections=['Apple', 'Banana', 'Grape'],
+        button_content='Submit'
+    )
+    # result['user_input'] will contain {'fruit': 'selected option'}
+    print(f"User input: {result.get('user_input', {})}")
+
+
+# ============================================================================
+# 12. Callback
+# ============================================================================
+
+def example_callback():
+    """Callback"""
+    def handle_click(result):
+        print('Clicked!', result)
+        print('Arguments:', result['arguments'])
+        print('User Input:', result['user_input'])
+
+    toast('Hello Python', 'Click to open url', on_click=handle_click)
+
+
+# ============================================================================
+# 13. Async
+# ============================================================================
+
+async def example_async():
+    """Async Function"""
+    await toast_async('Hello Python', 'Click to open url', on_click='https://www.python.org')
+
+
+def example_non_blocking():
+    """Non-blocking"""
+    notify('Hello Python', 'Click to open url', on_click='https://www.python.org')
+
+
+# ============================================================================
+# 14. Complete Example
+# ============================================================================
+
+def example_complete():
+    """Complete Example"""
+    # 1. Basic notification
+    toast('Welcome', 'Welcome to windows11toast!')
+    sleep(1)
+
+    # 2. Notification with image
+    toast(
+        'Image Notification',
+        'This is a notification with an image',
+        image_src=r'C:\Users\YourName\Pictures\image.jpg',
+        image_placement=ImagePlacement.HERO
+    )
+    sleep(1)
+
+    # 3. Notification with icon and audio
+    notify(
+        'Notification',
+        'Notification with icon and audio',
+        icon_src='https://example.com/icon.png',
+        icon_placement=IconPlacement.APP_LOGO_OVERRIDE,
+        icon_hint_crop=IconCrop.CIRCLE,
+        audio=AudioEvent.DEFAULT,
+        duration=ToastDuration.LONG
+    )
+    sleep(1)
+
+    # 4. Progress notification
+    notify_progress(
+        title='Download Task',
+        status='Downloading...',
+        value=0.0,
+        value_string_override='0/100 MB',
+        icon_src='https://example.com/download.png',
+        icon_placement=IconPlacement.APP_LOGO_OVERRIDE,
+        audio=None  # Silent
+    )
+
+    # Update progress
+    for i in range(1, 101):
+        sleep(0.1)
+        update_progress(
+            value=i/100,
+            value_string_override=f'{i}/100 MB'
+        )
+
+    # Complete
+    update_progress(
+        value=1.0,
+        status='Download completed!',
+        value_string_override='100/100 MB'
+    )
+    sleep(1)
+
+    # 5. Silent notification
+    notify('Silent Notification', 'This is a silent notification', audio=None)
+    sleep(1)
+
+    # 6. Loop audio
+    notify(
+        'Loop Audio',
+        'This notification audio will loop',
+        audio=AudioEvent.LOOPING_ALARM,
+        audio_loop=True
+    )
+    sleep(1)
+
+    # 7. No timeout notification (incoming call scenario)
+    notify(
+        'Incoming Call',
+        'This is a notification with no timeout',
+        duration=ToastDuration.INCOMING_CALL
+    )
+
+
+# ============================================================================
+# Main Function - Call All Examples
+# ============================================================================
+
+def main():
+    """Run all examples"""
+    print("=" * 60)
+    print("windows11toast Examples")
+    print("=" * 60)
+    
+    # Basic notifications
+    print("\n1. Basic Notifications")
+    example_simple_notification()
+    sleep(1)
+    example_notification_with_title_and_body()
+    sleep(1)
+    example_wrap_text()
+    sleep(2)
+    
+    # Image notifications
+    print("\n2. Image Notifications")
+    example_image_with_strenum()
+    sleep(1)
+    example_image_with_string()
+    sleep(2)
+    
+    # Icon notifications
+    print("\n3. Icon Notifications")
+    example_icon_circular()
+    sleep(1)
+    example_icon_square()
+    sleep(2)
+    
+    # Progress notifications
+    print("\n4. Progress Notifications")
+    example_progress_notification()
+    sleep(2)
+    
+    # Audio notifications
+    print("\n5. Audio Notifications")
+    example_audio_default()
+    sleep(1)
+    example_audio_silent()
+    sleep(1)
+    example_audio_loop()
+    sleep(2)
+    
+    # Text-to-speech
+    print("\n6. Text-to-Speech")
+    example_text_to_speech()
+    sleep(2)
+    
+    # Duration
+    print("\n7. Duration")
+    example_duration_short()
+    sleep(1)
+    example_duration_long()
+    sleep(2)
+    
+    # Buttons
+    print("\n8. Buttons")
+    example_button_single()
+    sleep(1)
+    example_button_multiple()
+    sleep(2)
+    
+    # Non-blocking
+    print("\n9. Non-blocking")
+    example_non_blocking()
+    sleep(2)
+    
+    print("\n" + "=" * 60)
+    print("All examples completed!")
+    print("=" * 60)
+    print("\nNote: Some examples require user interaction (input fields, selection, callbacks)")
+    print("\nTo run complete example, call: example_complete()")
+
+
+async def main_async():
+    """Run async examples"""
+    import asyncio
+    print("\nRunning async examples...")
+    
+    # OCR examples (require actual image files)
+    # print("\n10. OCR Examples")
+    # await example_ocr_auto()
+    
+    # Async notification example
+    print("\n10. Async Notification")
+    await example_async()
+    sleep(2)
+    
+    print("\nAsync examples completed!")
+
+
+if __name__ == '__main__':
+    # Run sync examples
+    main()
+    
+    # Run async examples (uncomment to run)
+    # import asyncio
+    # asyncio.run(main_async())
+```
